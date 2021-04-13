@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="index.js"></script>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+// es5里的类
+
+//最简单的类
+function Person() {
+    this.name = '张三';
+    this.age = 20;
+}
+
+let ap = new Person();
+
+
+//构造函数和原型链里面增加方法
+function Person1(name, age) {
+    this.name = '杨力';
+    this.age = 20;
+    this.run = function () {
+        alert('杨力在run');
+    };
+}
+
+Person1.getInfo = function () {
+    console.log('我是静态方法');
+};
+
+// 原型链上属性会被多个实例共享，构造函数内的属性不会
+Person1.prototype.sex = '男';
+Person1.prototype.work = function () {
+    alert(this.name + '在工作');
+};
+let ap1 = new Person1('杨胖墩', 20);
+
+// obj -> Object -> null
+// fn -> Function ->Object -> null
+ap1.run();               //实例方法
+ap1.work();
+
+// 类里面的静态方法
+Person1.getInfo();
+
+// es5 的继承 web类继承person  原形链 + 对象冒充
+function Webs(name, age) {
+    Person1.call(this, name, age);  //对象冒充实现继承  子类可以给父类赋值
+}
+
+let w = new Webs('赵四', 22); //可以继承构造函数的属性和方法无法继承原型链上的
+// w.work()
+Webs.prototype = new Person1(); //原型链继承 ，既可以继承构造函数中属性和方法也可以继承原型链上  问题： 实例化时子类无法给父类传参
+Webs.prototype = Person1.prototype;
+</script>
+
